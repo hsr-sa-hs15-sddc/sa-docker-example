@@ -18,6 +18,10 @@ RUN    sudo apt-get install -y libvirt-bin
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 EXPOSE 8080
 
+ADD id_rsa /root/.ssh/id_rsa
+ADD id_rsa.pub /root/.ssh/id_rsa.pub
 
 ADD sddc-prototyp-1.0-SNAPSHOT.war sddc.war
 CMD java -jar sddc.war
+
+RUN sudo apt-get install -y openssh-client
