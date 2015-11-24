@@ -15,7 +15,7 @@ RUN apt-get install -y curl && \
 
 RUN sudo apt-get install -y libvirt-bin
 
-RUN sudo apt-get install - git
+RUN sudo apt-get install -y git
 
 RUN sudo apt-get install -y openssh-client
 
@@ -25,6 +25,8 @@ EXPOSE 8080
 ADD id_rsa /root/.ssh/id_rsa
 ADD id_rsa.pub /root/.ssh/id_rsa.pub
 
+RUN chmod 700 /root/.ssh/id_rsa
+
 RUN touch /root/.ssh/known_hosts
 
 RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
@@ -33,14 +35,14 @@ RUN ssh-keyscan silvn.com >> /root/.ssh/known_hosts
 
 RUN git clone git@github.com:silvanadrian/SDDC.git
 
-RUN sudo apt-get install maven
-
-RUN cd SDDC
+RUN sudo apt-get -y install maven
+WORKDIR /SDDC
+RUN ls
 
 RUN mvn package -Dmaven.test.skip=true
 
 RUN cp target/SDDC-*-SNAPSHOT.jar /
-RUN cd /
 
+WORKDIR /
 
 CMD java -jar *.jar
