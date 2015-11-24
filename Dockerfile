@@ -31,7 +31,7 @@ RUN touch /root/.ssh/known_hosts
 
 RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
 
-RUN ssh-keyscan silvn.com >> /root/.ssh/known_hosts
+RUN ssh-keyscan libvirt.silvn.com >> /root/.ssh/known_hosts
 
 RUN git clone git@github.com:silvanadrian/SDDC.git
 
@@ -44,5 +44,12 @@ RUN mvn package -Dmaven.test.skip=true
 RUN cp target/SDDC-*-SNAPSHOT.jar /
 
 WORKDIR /
+
+ADD GenericAPILibVirtConfig.conf GenericAPILibVirtConfig.conf
+ADD LibVirtComputeConfigDebian.xml LibVirtComputeConfigDebian.xml
+ADD LibVirtComputeConfigDebianNetwork.xml LibVirtComputeConfigDebianNetwork.xml
+ADD LibVirtComputeConfigUbuntu.xml LibVirtComputeConfigUbuntu.xml
+ADD LibVirtNetworkConfig.xml LibVirtNetworkConfig.xml
+ADD LibVirtStorageConfig.xml LibVirtStorageConfig.xml
 
 CMD java -jar *.jar
