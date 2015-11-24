@@ -13,7 +13,11 @@ RUN apt-get install -y curl && \
     apt-get -qq -y install oracle-java8-installer > /dev/null
 
 
-RUN    sudo apt-get install -y libvirt-bin
+RUN sudo apt-get install -y libvirt-bin
+
+RUN sudo apt-get install - git
+
+RUN sudo apt-get install -y openssh-client
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 EXPOSE 8080
@@ -21,7 +25,22 @@ EXPOSE 8080
 ADD id_rsa /root/.ssh/id_rsa
 ADD id_rsa.pub /root/.ssh/id_rsa.pub
 
-ADD sddc-prototyp-1.0-SNAPSHOT.war sddc.war
-CMD java -jar sddc.war
+RUN touch /root/.ssh/known_hosts
 
-RUN sudo apt-get install -y openssh-client
+RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
+
+RUN ssh-keyscan silvn.com >> /root/.ssh/known_hosts
+
+RUN git clone git@github.com:silvanadrian/SDDC.git
+
+RUN sudo apt-get install maven
+
+RUN cd SDDC
+
+RUN mvn package -Dmaven.test.skip=true
+
+RUN cp target/SDDC-*-SNAPSHOT.jar /
+RUN cd /
+
+
+CMD java -jar *.jar
