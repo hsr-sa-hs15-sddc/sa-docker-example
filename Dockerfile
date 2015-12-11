@@ -33,10 +33,9 @@ WORKDIR /
 
 ADD SDDC-0.0.3.jar SDDC-0.0.3.jar
 ADD Config.xml Config.xml
-ADD LibVirtComputeConfigDebian.xml LibVirtComputeConfigDebian.xml
-ADD LibVirtComputeConfigDebianNetwork.xml LibVirtComputeConfigDebianNetwork.xml
+ADD LibVirtComputeConfigExample.xml LibVirtComputeConfigExample.xml
+ADD LibVirtNetworkConfigExample.xml LibVirtNetworkConfigExample.xml
 ADD LibVirtComputeConfigUbuntu.xml LibVirtComputeConfigUbuntu.xml
-ADD LibVirtNetworkConfig.xml LibVirtNetworkConfig.xml
-ADD LibVirtStorageConfig.xml LibVirtStorageConfig.xml
+ADD LibVirtStorageConfigExample.xml LibVirtStorageConfigExample.xml
 
 CMD java -jar -Dspring.profiles.active=dev *.jar
