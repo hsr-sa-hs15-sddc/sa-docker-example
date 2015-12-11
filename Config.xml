@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="LibVirtConnect" class="org.libvirt.Connect">
+	<constructor-arg value="qemu+ssh://sddc@libvirt.silvn.com/system?socket=/var/run/libvirt/libvirt-sock" type="String"></constructor-arg>
+	<constructor-arg value="false" type="boolean"></constructor-arg>
+	</bean>
+
+	<bean id="LibVirtComputeController" class="sddc.genericapi.libvirt.LibVirtComputeController">
+	<constructor-arg><ref bean="LibVirtConnect" /></constructor-arg>
+	</bean>
+
+	<bean id="LibVirtNetworkController" class="sddc.genericapi.libvirt.LibVirtNetworkController">
+	<constructor-arg><ref bean="LibVirtConnect" /></constructor-arg>
+	</bean>
+
+	<bean id="LibVirtStorageController" class="sddc.genericapi.libvirt.LibVirtStorageController">
+	<constructor-arg><ref bean="LibVirtConnect" /></constructor-arg>
+	</bean>
+
+	<bean id="LibVirtServiceModuleHandler" class="sddc.genericapi.ServiceModuleHandler">
+	<constructor-arg>
+		<list>
+			<ref bean="LibVirtComputeController" />
+			<ref bean="LibVirtNetworkController" />
+			<ref bean="LibVirtStorageController" />
+		</list>
+	</constructor-arg>
+	</bean>
+
+</beans>

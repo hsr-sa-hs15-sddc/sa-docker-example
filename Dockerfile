@@ -10,14 +10,10 @@ RUN apt-get install -y curl && \
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 && \
     apt-get -qq update > /dev/null && \
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-    apt-get -qq -y install oracle-java8-installer > /dev/null
-
-
-RUN sudo apt-get install -y libvirt-bin
-
-RUN sudo apt-get install -y git
-
-RUN sudo apt-get install -y openssh-client
+    apt-get -qq -y install oracle-java8-installer > /dev/null && \
+    sudo apt-get install -y libvirt-bin && \
+    sudo apt-get install -y git && \
+    sudo apt-get install -y openssh-client
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 EXPOSE 8080
@@ -25,31 +21,22 @@ EXPOSE 8080
 ADD id_rsa /root/.ssh/id_rsa
 ADD id_rsa.pub /root/.ssh/id_rsa.pub
 
-RUN chmod 700 /root/.ssh/id_rsa
+RUN chmod 700 /root/.ssh/id_rsa && \
+    touch /root/.ssh/known_hosts && \
+    ssh-keyscan libvirt.silvn.com >> /root/.ssh/known_hosts
 
-RUN touch /root/.ssh/known_hosts
-
-RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
-
-RUN ssh-keyscan libvirt.silvn.com >> /root/.ssh/known_hosts
-
-RUN git clone git@github.com:silvanadrian/SDDC.git
-
-RUN sudo apt-get -y install maven
 WORKDIR /SDDC
-RUN ls
 
-RUN mvn package -Dmaven.test.skip=true
 
-RUN cp target/SDDC-*-SNAPSHOT.jar /
 
 WORKDIR /
 
-ADD GenericAPILibVirtConfig.conf GenericAPILibVirtConfig.conf
+ADD SDDC-0.0.3.jar SDDC-0.0.3.jar
+ADD Config.xml Config.xml
 ADD LibVirtComputeConfigDebian.xml LibVirtComputeConfigDebian.xml
 ADD LibVirtComputeConfigDebianNetwork.xml LibVirtComputeConfigDebianNetwork.xml
 ADD LibVirtComputeConfigUbuntu.xml LibVirtComputeConfigUbuntu.xml
 ADD LibVirtNetworkConfig.xml LibVirtNetworkConfig.xml
 ADD LibVirtStorageConfig.xml LibVirtStorageConfig.xml
 
-CMD java -jar *.jar
+CMD java -jar -Dspring.profiles.active=dev *.jar
