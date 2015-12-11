@@ -7,7 +7,7 @@
                 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="LibVirtConnect" class="org.libvirt.Connect">
-	<constructor-arg value="qemu+ssh://sddc@libvirt.silvn.com/system?socket=/var/run/libvirt/libvirt-sock" type="String"></constructor-arg>
+	<constructor-arg value="test:///default" type="String"></constructor-arg>
 	<constructor-arg value="false" type="boolean"></constructor-arg>
 	</bean>
 

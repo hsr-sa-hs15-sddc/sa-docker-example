@@ -1,0 +1,18 @@
+<domain type='test' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+
+	<name>QEmu-fedora-i686-{{UUID}}</name>
+	<memory>219200</memory>
+	
+	<os>
+		<type arch='i686' machine='pc'>hvm</type>
+	</os>
+	
+	<devices>
+		<emulator>/usr/bin/qemu-system-x86_64</emulator>
+	</devices>
+	
+	<qemu:commandline>
+		<qemu:arg value='-newarg'/><qemu:env name='QEMU_ENV' value='VAL'/>
+	</qemu:commandline>
+
+</domain>

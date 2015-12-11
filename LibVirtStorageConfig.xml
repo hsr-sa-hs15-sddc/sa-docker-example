@@ -1,6 +1,0 @@
-<pool type="dir">
-        <name>virtimages-{{UUID}}</name>
-        <target>
-          <path>/home/sddc/guest_images</path>
-        </target>
-</pool>

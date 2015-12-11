@@ -1,0 +1,13 @@
+<pool type="disk">
+
+	<name>vdb-{{UUID}}</name>
+	
+	<source>
+		<device path='/dev/vdb-{{UUID}}' />
+	</source>
+	
+	<target>
+		<path>/dev</path>
+	</target>
+	
+</pool>
