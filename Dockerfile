@@ -18,17 +18,6 @@ RUN apt-get install -y curl && \
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 EXPOSE 8080
 
-ADD id_rsa /root/.ssh/id_rsa
-ADD id_rsa.pub /root/.ssh/id_rsa.pub
-
-RUN chmod 700 /root/.ssh/id_rsa && \
-    touch /root/.ssh/known_hosts && \
-    ssh-keyscan libvirt.silvn.com >> /root/.ssh/known_hosts
-
-WORKDIR /SDDC
-
-
-
 WORKDIR /
 
 ADD SDDC-0.0.3.jar SDDC-0.0.3.jar
